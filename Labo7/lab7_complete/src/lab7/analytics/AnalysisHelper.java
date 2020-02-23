@@ -50,7 +50,8 @@ public class AnalysisHelper {
                 max = userLikesCount.get(id);
                 maxId = id;
             }
-        }
+        }  
+        
         System.out.println("User with most likes: " + max + "\n" 
             + users.get(maxId));
     }
@@ -83,7 +84,8 @@ public class AnalysisHelper {
         }
         
         double average_likes = total_likes/comment_num;
-        System.out.println();
+        System.out.println();  
+        
         System.out.println("Lab 7. 1)");
         System.out.println("The average number of all comments is " + average_likes);
      }
@@ -109,6 +111,7 @@ public class AnalysisHelper {
             }
         }
         System.out.println();
+        
         System.out.println("Lab 7. 2)");
          System.out.println("Post with most likes: " + max + "\n"
                 + postHashMap.get(maxId)+maxId);
@@ -126,6 +129,7 @@ public class AnalysisHelper {
             }
         });
         System.out.println();
+        
         System.out.println("Lab 7. 3)");
         System.out.println("Post with most comments: "+postList.get(0).getComments().size()+"\n"
                 +postList.get(0));
@@ -156,6 +160,7 @@ public class AnalysisHelper {
             }
         });
         System.out.println();
+      
         System.out.println("Lab 7. 4)");
         System.out.println("Top 5 inactive users by posts are:");
         Map<Integer, User> users = DataStore.getInstance().getUsers();
@@ -186,6 +191,7 @@ public class AnalysisHelper {
             }
         });
         System.out.println();
+       
         System.out.println("Lab 7. 5)");
         System.out.println("Top 5 inactive users by comments are :");
         for(int i =0; i<5;i++){
@@ -193,8 +199,48 @@ public class AnalysisHelper {
         }
     }
     
+    public void getFiveInactiveUsersOverall() {
+        Map<Integer, User> users = DataStore.getInstance().getUsers();
+        Map<Integer, Comment> comments = DataStore.getInstance().getComments();
+        Map<Integer, Post> posts = DataStore.getInstance().getPosts();
+        
+        Map<Integer, Integer> userOverallMap = new HashMap<Integer, Integer>();
+        
+        for(User user: users.values()){
+            int activity=0;
+            int userId = user.getId();
+            activity+=user.getComments().size();
+            for(Comment comment: comments.values()){
+                if(comment.getUserId() == userId)
+                    activity+=comment.getLikes();
+            }
+            for(Post post: posts.values()){
+                if(post.getUserId() == userId)
+                    activity++;
+            }
+            userOverallMap.put(userId, activity);
+
+        }
+            List<Map.Entry<Integer, Integer>> listInactive = new ArrayList<Map.Entry<Integer, Integer>>(userOverallMap.entrySet());
+            
+            Collections.sort(listInactive, new Comparator<Map.Entry<Integer, Integer>>(){
+            @Override
+            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2){
+                return o1.getValue()-o2.getValue();
+            }
+        });
+        System.out.println("\n");
+        System.out.println(" Top 5 Inactive Users overall : ");
+        User u;
+        for(int i=0; i<5; i++){
+            u = users.get(listInactive.get(i).getKey());
+            System.out.println("Name: "+u.getFirstName()+" "+u.getLastName()+" Activity Count: "+listInactive.get(i).getValue());
+        }
+            
+    } 
     
-           
+    
+            
     public void getFiveProactiveUsersOverall() {
         Map<Integer, User> users = DataStore.getInstance().getUsers();
         Map<Integer, Comment> comments = DataStore.getInstance().getComments();
@@ -233,7 +279,6 @@ public class AnalysisHelper {
             System.out.println("Name: "+u.getFirstName()+" "+u.getLastName()+" Activity Count: "+listProactive.get(i).getValue());
         }
     }
-    
-    
+      
     
 }
