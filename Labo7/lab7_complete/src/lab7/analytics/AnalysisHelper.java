@@ -82,6 +82,8 @@ public class AnalysisHelper {
         }
         
         double average_likes = total_likes/comment_num;
+        System.out.println();
+        System.out.println("Lab 7. 1)");
         System.out.println("The average number of all comments is " + average_likes);
      }
     public void getPostByMostLikedComments(){
@@ -105,6 +107,8 @@ public class AnalysisHelper {
                 maxId = id;
             }
         }
+        System.out.println();
+        System.out.println("Lab 7. 2)");
          System.out.println("Post with most likes: " + max + "\n"
                 + postHashMap.get(maxId)+maxId);
     }
@@ -120,10 +124,11 @@ public class AnalysisHelper {
                 return p2.getComments().size()-p1.getComments().size();
             }
         });
-        
+        System.out.println();
+        System.out.println("Lab 7. 3)");
         System.out.println("Post with most comments: "+postList.get(0).getComments().size()+"\n"
                 +postList.get(0));
 
     }
-    
+         
 }
