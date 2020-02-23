@@ -47,5 +47,9 @@ public class Post {
     public void setPostId(int postId) {
         this.postId = postId;
     }
+    @Override
+    public String toString(){
+        return "Post: { " + "postId: " + this.postId + "  userId: "+ this.userId + "}  ";
+    }
     
 }
