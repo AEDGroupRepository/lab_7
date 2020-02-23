@@ -199,6 +199,7 @@ public class AnalysisHelper {
         }
     }
     
+    //get top 5 inactive users overall
     public void getFiveInactiveUsersOverall() {
         Map<Integer, User> users = DataStore.getInstance().getUsers();
         Map<Integer, Comment> comments = DataStore.getInstance().getComments();
@@ -230,6 +231,7 @@ public class AnalysisHelper {
             }
         });
         System.out.println("\n");
+        System.out.println("Lab 7. 6)");
         System.out.println(" Top 5 Inactive Users overall : ");
         User u;
         for(int i=0; i<5; i++){
@@ -240,7 +242,7 @@ public class AnalysisHelper {
     } 
     
     
-            
+    //get top 5 proactive users overall(sum of comments, posts and likes)         
     public void getFiveProactiveUsersOverall() {
         Map<Integer, User> users = DataStore.getInstance().getUsers();
         Map<Integer, Comment> comments = DataStore.getInstance().getComments();
@@ -265,6 +267,7 @@ public class AnalysisHelper {
         }
         List<Map.Entry<Integer, Integer>> listProactive = new ArrayList<Map.Entry<Integer, Integer>>(userOverallMap.entrySet());
         
+        //sort Hashmap by values
         Collections.sort(listProactive, new Comparator<Map.Entry<Integer, Integer>>(){
             @Override
             public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2){
@@ -272,6 +275,7 @@ public class AnalysisHelper {
             }
         });
         System.out.println("\n");
+        System.out.println("Lab 7. 7)");
         System.out.println("Top 5 Proactive Users overall : ");
         User u;
         for(int i=0; i<5; i++){
