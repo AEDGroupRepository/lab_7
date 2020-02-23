@@ -14,6 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toMap;
 import lab7.entities.Post;
@@ -160,6 +161,35 @@ public class AnalysisHelper {
         Map<Integer, User> users = DataStore.getInstance().getUsers();
         for(int i =0; i<5;i++){
             System.out.println(users.get(list.get(i).getKey()));
+        }
+    }
+    
+    public void getTopFiveInactiveUsersOnComments() {
+   
+        Map<Integer, Integer> userCommentCount = new HashMap<Integer, Integer>();
+        
+        Map<Integer, User> users = DataStore.getInstance().getUsers();
+        Set<Map.Entry<Integer,User>> values = users.entrySet();
+        for(Map.Entry<Integer,User> f: values){
+            userCommentCount.put(users.get(f.getKey()).getId(), (users.get(f.getKey()).getComments()).size());
+        }
+        
+        //convert Set to List
+        List<Map.Entry<Integer, Integer>> listOfEntries = new ArrayList<>(userCommentCount.entrySet());
+        
+        //sort the HashMap by values  
+        Collections.sort(listOfEntries, new Comparator<Map.Entry<Integer, Integer>>(){
+            @Override
+            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+                if(o1.getValue()>o2.getValue()) return 1;
+                else return -1;
+            }
+        });
+        System.out.println();
+        System.out.println("Lab 7. 5)");
+        System.out.println("Top 5 inactive users by comments are :");
+        for(int i =0; i<5;i++){
+            System.out.println(users.get(listOfEntries.get(i).getKey()));
         }
     }
 }
