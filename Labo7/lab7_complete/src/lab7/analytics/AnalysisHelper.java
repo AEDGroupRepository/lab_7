@@ -192,4 +192,48 @@ public class AnalysisHelper {
             System.out.println(users.get(listOfEntries.get(i).getKey()));
         }
     }
+    
+    
+           
+    public void getFiveProactiveUsersOverall() {
+        Map<Integer, User> users = DataStore.getInstance().getUsers();
+        Map<Integer, Comment> comments = DataStore.getInstance().getComments();
+        Map<Integer, Post> posts = DataStore.getInstance().getPosts();
+        
+        Map<Integer, Integer> userOverallMap = new HashMap<Integer, Integer>();
+        
+        for(User user: users.values()){
+            int activity=0;
+            int userId = user.getId();
+            activity+=user.getComments().size();
+            for(Comment comment: comments.values()){
+                if(comment.getUserId() == userId)
+                    activity+=comment.getLikes();
+            }
+            for(Post post: posts.values()){
+                if(post.getUserId() == userId)
+                    activity++;
+            }
+            userOverallMap.put(userId, activity);
+
+        }
+        List<Map.Entry<Integer, Integer>> listProactive = new ArrayList<Map.Entry<Integer, Integer>>(userOverallMap.entrySet());
+        
+        Collections.sort(listProactive, new Comparator<Map.Entry<Integer, Integer>>(){
+            @Override
+            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2){
+                return o2.getValue()-o1.getValue();
+            }
+        });
+        System.out.println("\n");
+        System.out.println("Top 5 Proactive Users overall : ");
+        User u;
+        for(int i=0; i<5; i++){
+            u = users.get(listProactive.get(i).getKey());
+            System.out.println("Name: "+u.getFirstName()+" "+u.getLastName()+" Activity Count: "+listProactive.get(i).getValue());
+        }
+    }
+    
+    
+    
 }
