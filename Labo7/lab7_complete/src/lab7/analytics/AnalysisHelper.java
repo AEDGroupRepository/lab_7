@@ -130,5 +130,36 @@ public class AnalysisHelper {
                 +postList.get(0));
 
     }
-         
+      
+    
+    public void getTopFiveInactiveUsersOnPosts(){
+              
+        Map<Integer, Integer> userMap = new HashMap<>();
+        
+        Map<Integer,Post> postMap = DataStore.getInstance().getPosts();
+        
+        for(Post p : postMap.values()){
+            int postCount = 0;
+            if(userMap.containsKey(p.getUserId())){
+                postCount = userMap.get(p.getUserId());
+            }
+            userMap.put(p.getUserId(), postCount+1);
+        }
+        List<Map.Entry<Integer,Integer>> list = new ArrayList<>(userMap.entrySet());
+        
+        Collections.sort(list, new Comparator<Map.Entry<Integer, Integer>>() {
+
+            @Override
+            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+                return o2.getValue()-o1.getValue();
+            }
+        });
+        System.out.println();
+        System.out.println("Lab 7. 4)");
+        System.out.println("Top 5 inactive users by posts are:");
+        Map<Integer, User> users = DataStore.getInstance().getUsers();
+        for(int i =0; i<5;i++){
+            System.out.println(users.get(list.get(i).getKey()));
+        }
+    }
 }
